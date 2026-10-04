@@ -16,6 +16,5 @@ public class Display extends JPanel {
 
         setLayout(new FlowLayout(FlowLayout.RIGHT,10,25));
 
-        setBackground(Color.GREEN);
     }
 }
