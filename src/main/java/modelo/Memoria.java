@@ -65,7 +65,30 @@ public class Memoria {
     }
 
     private String obterResultadoOperacao() {
-        return textoAtual;
+        if(ultimaOperacao == null || ultimaOperacao == TipoComando.IGUAL){
+            return textoAtual;
+        }
+        double numeroBuffer = Double.parseDouble(textoBuffer.replace(",","."));
+        double numeroAtual = Double.parseDouble(textoAtual.replace(",","."));
+
+        double resultado = 0;
+
+        if(ultimaOperacao == TipoComando.SOMA){
+            resultado = numeroBuffer + numeroAtual;
+        }
+        else if(ultimaOperacao == TipoComando.SUB){
+            resultado = numeroBuffer - numeroAtual;
+        }
+        else if(ultimaOperacao == TipoComando.MULT){
+            resultado = numeroBuffer * numeroAtual;
+        }
+        else if(ultimaOperacao == TipoComando.DIV){
+            resultado = numeroBuffer / numeroAtual;
+        }
+
+        String resultadoString = Double.toString(resultado).replace(".",",");
+        boolean inteiro = resultadoString.endsWith("0");
+        return inteiro ? resultadoString.replace(",0",""):resultadoString;
     }
 
     private TipoComando detectarTipoComando(String valor) {
