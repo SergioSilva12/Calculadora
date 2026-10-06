@@ -86,7 +86,7 @@ public class Memoria {
         else if(ultimaOperacao == TipoComando.DIV){
             resultado = numeroBuffer / numeroAtual;
         }else if(ultimaOperacao == TipoComando.MUDAR){
-            resultado = -resultado;
+            numeroAtual = - numeroAtual;
         }
 
         String resultadoString = Double.toString(resultado).replace(".",",");
