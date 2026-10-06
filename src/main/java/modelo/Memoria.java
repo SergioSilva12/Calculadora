@@ -7,7 +7,11 @@ import java.util.List;
 public class Memoria {
     private static final Memoria instancia = new Memoria();
     private final List<MemoriaObservador> observadores = new ArrayList<>();
+
+    private TipoComando ultimaOperacao = null;
+    private boolean substituir = false;
     private String textoAtual = "";
+    private String textoBuffer = "";
 
     private enum TipoComando{
         ZERAR,
@@ -40,12 +44,28 @@ public class Memoria {
 
         TipoComando tipoComando = detectarTipoComando(valor);
 
-        if(valor.equals("AC")){
-            valor = "";
-        }else{
-            textoAtual +=valor;
+        if(tipoComando == null){
+            return;
+        }else if(tipoComando == TipoComando.ZERAR){
+            textoAtual = "";
+            textoBuffer = "";
+            substituir = false;
+            ultimaOperacao = null;
+        }else if(tipoComando == TipoComando.NUMERO || tipoComando == TipoComando.VIRGULA){
+                textoAtual = substituir ? valor : textoAtual + valor;
+                substituir = false;
+        }else {
+            substituir = true;
+            textoAtual = obterResultadoOperacao();
+
+            textoBuffer = textoAtual;
+            ultimaOperacao = tipoComando;
         }
         observadores.forEach(o->o.valorAlterado(getTextoAtual()));
+    }
+
+    private String obterResultadoOperacao() {
+        return textoAtual;
     }
 
     private TipoComando detectarTipoComando(String valor) {
@@ -74,7 +94,7 @@ public class Memoria {
             }
             else if("=".equals(valor)){
                 return TipoComando.IGUAL;
-            }else if(",".equals(valor)){
+            }else if(",".equals(valor) && !textoAtual.contains(",")){
                 return TipoComando.VIRGULA;
             }
         }
