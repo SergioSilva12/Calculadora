@@ -20,6 +20,7 @@ public class Memoria {
         MULT,
         SOMA,
         IGUAL,
+        MUDAR,
         VIRGULA,
         SUB
     };
@@ -84,6 +85,8 @@ public class Memoria {
         }
         else if(ultimaOperacao == TipoComando.DIV){
             resultado = numeroBuffer / numeroAtual;
+        }else if(ultimaOperacao == TipoComando.MUDAR){
+            resultado = -resultado;
         }
 
         String resultadoString = Double.toString(resultado).replace(".",",");
@@ -95,7 +98,6 @@ public class Memoria {
         if(textoAtual.isEmpty() && textoAtual == "0"){
             return null;
         }
-
         try{
             Integer.parseInt(valor);
             return TipoComando.NUMERO;
@@ -119,6 +121,8 @@ public class Memoria {
                 return TipoComando.IGUAL;
             }else if(",".equals(valor) && !textoAtual.contains(",")){
                 return TipoComando.VIRGULA;
+            }else if("+/-".equals(valor)){
+                return TipoComando.MUDAR;
             }
         }
 
