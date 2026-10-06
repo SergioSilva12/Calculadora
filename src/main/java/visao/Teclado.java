@@ -2,8 +2,10 @@ package visao;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Teclado extends JPanel {
+public class Teclado extends JPanel implements ActionListener{
 
     private final Color COR_CINZA_ESCURO = new Color(68,68,68);
     private final Color COR_CINZA_CLARO = new Color(97,100,98);
@@ -16,8 +18,11 @@ public class Teclado extends JPanel {
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
 
-        setLayout(new GridLayout(5,4));
+        setLayout(layout);
 
+        c.weightx = 1;
+        c.weighty = 1;
+        c.fill = GridBagConstraints.BOTH;
         //linha 1
         adicionarBotao("AC",COR_CINZA_ESCURO,c,0,0);
         adicionarBotao("+/-",COR_CINZA_ESCURO,c,1,0);
@@ -43,8 +48,9 @@ public class Teclado extends JPanel {
         adicionarBotao("+",COR_LARANJA,c,3,3);
 
         //linha 5
+        c.gridwidth = 2;
         adicionarBotao("0",COR_CINZA_CLARO,c,0,4);
-        adicionarBotao("0",COR_CINZA_CLARO,c,1,4);
+        c.gridwidth = 1;
         adicionarBotao(",",COR_CINZA_CLARO,c,2,4);
         adicionarBotao("=",COR_LARANJA,c,3,4);
 
@@ -55,6 +61,15 @@ public class Teclado extends JPanel {
         c.gridx = x;
         c.gridy = y;
         Botao botao = new Botao(texto,cor);
+        botao.addActionListener(this);
         add(botao,c);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e){
+        if(e.getSource() instanceof JButton){
+            JButton botao = (JButton) e.getSource();
+        }
+
     }
 }
